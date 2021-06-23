@@ -34,7 +34,7 @@ let transporter = nodemailer.createTransport({
 });
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html')
+    res.send('Hello World!');
 });
 
 app.get('/sendMail', (req, res) => {
