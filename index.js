@@ -1,3 +1,6 @@
+const express = require('express');
+const app = express();
+const port = 3000;
 const admin = require('firebase-admin');
 const nodemailer = require('nodemailer');
 const cors = require('cors')({ origin: true });
@@ -30,7 +33,11 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-exports.sendMail = (req, res) => {
+app.get('/test', (req, res) => {
+    res.send('Hello World!')
+});
+
+app.get('/sendMail', (req, res) => {
     cors(req, res, () => {
 
         // getting dest email by query string
@@ -53,9 +60,9 @@ exports.sendMail = (req, res) => {
             return res.send('Sended');
         });
     });
-};
+});
 
-exports.sendMailHTML = (req, res) => {
+app.get('/sendMailHTML', (req, res) => {
     cors(req, res, () => {
         getInfo(req.query.id).then(data => {
             // getting dest email by query string
@@ -183,7 +190,7 @@ exports.sendMailHTML = (req, res) => {
             });
         });
     });
-};
+});
 
 var getInfo = function (documentId) {
     return new Promise((resolve, reject) => {
@@ -200,3 +207,7 @@ var getInfo = function (documentId) {
             });
     });
 };
+
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+});
